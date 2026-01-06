@@ -1,0 +1,47 @@
+# backend: هو المسؤول عن كيفية المصادقة وحفظ الملفات
+# بما أنك تستخدم Netlify و GitHub، هذا هو الإعداد الأمثل.
+backend:
+  name: git-gateway
+  branch: main # أو master، اسم الفرع الرئيسي في GitHub
+
+# media_folder: أين سيتم حفظ الصور التي يتم رفعها من لوحة التحكم
+media_folder: "images/uploads"
+# public_folder: كيف سيصل الموقع إلى هذه الصور
+public_folder: "/images/uploads"
+
+# collections: هنا نُعرّف أنواع المحتوى التي يمكن إدارتها.
+# لنقم بإنشاء "مجموعة" لإدارة المشاريع الهندسية.
+# ... (backend و media_folder كما هما) ...
+
+collections:
+  - name: "projects"
+    label: "المشاريع الهندسية"
+    file: "_data/projects.json" # تأكد من أن المسار صحيح
+    create: true
+    
+    # هذا يخبر Decap CMS أننا ندير قائمة (array) داخل ملف JSON
+    # واسم هذه القائمة هو "projects"
+    fields:
+      - name: projects # اسم القائمة في ملف JSON
+        label: المشاريع
+        widget: list # نوع الحقل هو "قائمة"
+        
+        # الحقول الخاصة بكل عنصر داخل القائمة
+        fields:
+          - {label: "اسم المشروع", name: "title", widget: "string"}
+          - {label: "صورة المشروع", name: "image", widget: "image"}
+          - {label: "وصف قصير", name: "description", widget: "text"}
+          - {label: "موقع المشروع", name: "location", widget: "string"}
+          - {label: "سنة الإنجاز", name: "year", widget: "number"}
+          - label: "فئة المشروع"
+            name: "category_slug"
+            widget: "select" # حقل اختيار لتجنب الأخطاء الإملائية
+            options:
+              - { label: "تصميم فلل", value: "villas" }
+              - { label: "الأبراج التجارية", value: "towers" }
+              - { label: "التصميم الداخلي", value: "interior" }
+              - { label: "العمارة التراثية", value: "heritage" }
+              - { label: "المشاريع المستدامة", value: "sustainable" }
+          - {label: "اسم فئة المشروع (بالعربي)", name: "category_name", widget: "string"}
+          - {label: "معرّف النافذة المنبثقة (Modal ID)", name: "modal_id", widget: "string", hint: "استخدم project3, project4 وهكذا"}
+          

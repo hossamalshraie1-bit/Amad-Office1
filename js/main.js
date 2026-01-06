@@ -566,3 +566,67 @@
                 document.body.classList.add('loaded');
             });
         });
+
+
+
+
+
+
+
+
+
+        // انتظر حتى يتم تحميل الصفحة
+document.addEventListener('DOMContentLoaded', function () {
+
+    const projectsGrid = document.querySelector('.projects-grid');
+
+    // تأكد من أن حاوية المشاريع موجودة في الصفحة
+    if (projectsGrid) {
+        fetch('/_data/projects.json') // جلب البيانات
+            .then(response => response.json())
+            .then(data => {
+                // إفراغ الحاوية أولاً
+                projectsGrid.innerHTML = ''; 
+
+                // المرور على كل مشروع في البيانات
+                data.projects.forEach(project => {
+                    // إنشاء عنصر div جديد لكل بطاقة
+                    const projectCard = document.createElement('div');
+                    
+                    // إضافة الفئات والبيانات للبطاقة
+                    projectCard.className = 'project-card reveal';
+                    projectCard.setAttribute('data-category', project.category_slug);
+                    projectCard.setAttribute('data-modal', project.modal_id);
+
+                    // ======================================================
+                    // ==   هذا الكود يعيد بناء بطاقتك الأصلية تماماً     ==
+                    // ======================================================
+                    projectCard.innerHTML = `
+                        <div class="project-image">
+                            <img src="${project.image}" alt="${project.title}">
+                            <div class="project-overlay">
+                                <span class="project-category">${project.category_name}</span>
+                                <h3>${project.title}</h3>
+                            </div>
+                        </div>
+                        <div class="project-info">
+                            <h3>${project.title}</h3>
+                            <p>${project.description}</p>
+                            <div class="project-meta">
+                                <span><i class="fas fa-map-marker-alt"></i> ${project.location}</span>
+                                <span><i class="fas fa-calendar"></i> ${project.year}</span>
+                            </div>
+                        </div>
+                    `;
+                    // ======================================================
+
+                    // إضافة البطاقة المكتملة إلى الشبكة في الصفحة
+                    projectsGrid.appendChild(projectCard);
+                });
+            })
+            .catch(error => {
+                console.error('Error loading projects:', error);
+                projectsGrid.innerHTML = '<p>عفواً، حدث خطأ أثناء تحميل المشاريع.</p>';
+            });
+    }
+});
