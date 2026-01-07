@@ -1,0 +1,12 @@
+# ملف إعدادات Netlify
+
+[build]
+  # لا نحتاج أوامر بناء لموقع ثابت، لكن القسم ضروري
+  command = "echo 'No build command'"
+  publish = "/" # المجلد الرئيسي هو الذي يتم نشره
+
+# هذا القسم يخبر Netlify بتفعيل خدمة المصادقة (Auth)
+# وتجهيزها للعمل مع لوحة التحكم
+[functions]
+  external_node_modules = ["decap-cms-app"]
+  node_bundler = "esbuild"
