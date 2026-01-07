@@ -14,7 +14,7 @@ collections:
         name: "projects"
         fields:
           - label: "المشاريع"
-            name: "items"
+            name: "projects"
             widget: list
             fields:
               - { label: "اسم المشروع", name: "title", widget: "string" }
