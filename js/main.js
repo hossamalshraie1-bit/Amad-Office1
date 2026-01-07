@@ -1,5 +1,84 @@
-        // JavaScript - home.js
+        // JavaScript - main.js
         document.addEventListener('DOMContentLoaded', function () {
+
+
+
+
+
+                // =================================================================
+    // ==   1. كود جلب المشاريع الديناميكية                          ==
+    // =================================================================
+    const projectsGrid = document.querySelector('.projects-grid');
+
+    if (projectsGrid) {
+        fetch('/_data/projects.json')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data && Array.isArray(data.projects)) {
+                    renderProjects(data.projects);
+                } else {
+                    console.error("Data format error: 'data.projects' is not an array or is missing.", data);
+                }
+            })
+            .catch(error => {
+                console.error('Error loading projects:', error);
+                projectsGrid.innerHTML = '<p>عفواً، لا يمكن تحميل المشاريع حالياً.</p>';
+            });
+    }
+
+    /**
+     * دالة لإنشاء بطاقات المشاريع وإضافتها إلى الصفحة
+     * @param {Array} projects - قائمة المشاريع من ملف JSON
+     */
+    function renderProjects(projects) {
+        if (!projectsGrid) return; // حماية إضافية
+        
+        projectsGrid.innerHTML = ''; // إفراغ الحاوية
+        projects.forEach(project => {
+            const projectCard = document.createElement('div');
+            projectCard.className = 'project-card reveal';
+            projectCard.setAttribute('data-category', project.category_slug);
+            projectCard.setAttribute('data-modal', project.modal_id);
+            projectCard.innerHTML = `
+                <div class="project-image">
+                    <img src="${project.image}" alt="${project.title}">
+                    <div class="project-overlay">
+                        <span class="project-category">${project.category_name}</span>
+                        <h3>${project.title}</h3>
+                    </div>
+                </div>
+                <div class="project-info">
+                    <h3>${project.title}</h3>
+                    <p>${project.description}</p>
+                    <div class="project-meta">
+                        <span><i class="fas fa-map-marker-alt"></i> ${project.location}</span>
+                        <span><i class="fas fa-calendar"></i> ${project.year}</span>
+                    </div>
+                </div>
+            `;
+            projectsGrid.appendChild(projectCard);
+        });
+
+        // **مهم جداً:** بعد إنشاء البطاقات، يجب إعادة تهيئة الأكواد التي تعتمد عليها
+        // هذا السطر سيقوم بتشغيل كود الفلترة والمودال مرة أخرى على البطاقات الجديدة
+        initializeProjectFeatures();
+    }
+
+
+
+
+
+
+
+
+
+
+
             // تهيئة Swiper للهيدر
             const heroSwiper = new Swiper('.hero-slider', {
                 direction: 'horizontal',
@@ -128,38 +207,7 @@
                 link.addEventListener('click', closeMobileNav);
             });
 
-            // فلترة المشاريع
-            const filterButtons = document.querySelectorAll('.filter-btn');
-            const projectCards = document.querySelectorAll('.project-card');
-
-            filterButtons.forEach(button => {
-                button.addEventListener('click', function () {
-                    // إزالة النشاط من جميع الأزرار
-                    filterButtons.forEach(btn => btn.classList.remove('active'));
-                    // إضافة النشاط للزر المحدد
-                    this.classList.add('active');
-
-                    const filterValue = this.getAttribute('data-filter');
-
-                    projectCards.forEach(card => {
-                        const category = card.getAttribute('data-category');
-
-                        if (filterValue === 'all' || filterValue === category) {
-                            card.style.display = 'block';
-                            setTimeout(() => {
-                                card.style.opacity = '1';
-                                card.style.transform = 'translateY(0)';
-                            }, 10);
-                        } else {
-                            card.style.opacity = '0';
-                            card.style.transform = 'translateY(20px)';
-                            setTimeout(() => {
-                                card.style.display = 'none';
-                            }, 300);
-                        }
-                    });
-                });
-            });
+            
 
             // مودال الخدمات
             const serviceModal = document.getElementById('serviceModal');
@@ -367,89 +415,10 @@
             // جعل الدالة متاحة عالمياً
             window.closeServiceModal = closeServiceModal;
 
-            // مودال المشاريع
-            const projectModal = document.getElementById('projectModal');
-            const modalContent = document.querySelector('.modal-body');
-            const modalClose = document.querySelector('.modal-close');
 
-            projectCards.forEach(card => {
-                card.addEventListener('click', function () {
-                    const projectId = this.getAttribute('data-modal');
-                    const projectTitle = this.querySelector('h3').textContent;
-                    const projectDesc = this.querySelector('p').textContent;
-                    const projectImage = this.querySelector('img').src;
-                    const projectCategory = this.querySelector('.project-category').textContent;
-                    const projectLocation = this.querySelectorAll('.project-meta span')[0].textContent;
-                    const projectDate = this.querySelectorAll('.project-meta span')[1].textContent;
 
-                    modalContent.innerHTML = `
-                <div class="project-modal-details">
-                    <div class="modal-image">
-                        <img src="${projectImage}" alt="${projectTitle}">
-                    </div>
-                    <div class="modal-info">
-                        <span class="modal-category">${projectCategory}</span>
-                        <h2>${projectTitle}</h2>
-                        <p>${projectDesc}</p>
-                        
-                        <div class="modal-meta">
-                            <div class="meta-item">
-                                <i class="fas fa-map-marker-alt"></i>
-                                <div>
-                                    <span>الموقع</span>
-                                    <strong>${projectLocation}</strong>
-                                </div>
-                            </div>
-                            <div class="meta-item">
-                                <i class="fas fa-calendar"></i>
-                                <div>
-                                    <span>سنة الإنجاز</span>
-                                    <strong>${projectDate}</strong>
-                                </div>
-                            </div>
-                            <div class="meta-item">
-                                <i class="fas fa-ruler-combined"></i>
-                                <div>
-                                    <span>المساحة</span>
-                                    <strong>850 م²</strong>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="modal-description">
-                            <h3>تفاصيل المشروع</h3>
-                            <p>هذا المشروع يمثل إنجازًا هندسيًا بارزًا يجمع بين الجمال والوظيفة. تم تنفيذه بأعلى معايير الجودة والكفاءة، مع الاهتمام بكل التفاصيل الدقيقة لضمان رضا العميل وتحقيق الرؤية التصميمية.</p>
-                            <ul>
-                                <li>تصميم معماري مبتكر</li>
-                                <li>مواد بناء عالية الجودة</li>
-                                <li>أنظمة طاقة مستدامة</li>
-                                <li>تصميم داخلي متكامل</li>
-                                <li>إشراف هندسي متواصل</li>
-                            </ul>
-                        </div>
-                        
-                        <div class="modal-actions">
-                            <a href="#contact" class="btn btn-primary">طلب خدمة مشابهة</a>
-                            <button class="btn btn-secondary modal-close-btn">إغلاق</button>
-                        </div>
-                    </div>
-                </div>
-            `;
-
-                    projectModal.classList.add('active');
-                    document.body.style.overflow = 'hidden';
-
-                    // إضافة مستمعي الأحداث للأزرار الجديدة
-                    document.querySelector('.modal-close-btn')?.addEventListener('click', closeModal);
-                });
-            });
-
-            function closeModal() {
-                projectModal.classList.remove('active');
-                document.body.style.overflow = '';
-            }
-
-            modalClose.addEventListener('click', closeModal);
+            
+            
             projectModal.addEventListener('click', function (e) {
                 if (e.target === projectModal) {
                     closeModal();
@@ -565,68 +534,137 @@
             window.addEventListener('load', function () {
                 document.body.classList.add('loaded');
             });
-        });
+
+                // ... (هنا كل أكوادك الأخرى مثل عداد الإحصائيات وزر الصعود للأعلى) ...
 
 
+    // =================================================================
+    // ==   دالة جديدة لتشغيل ميزات المشاريع بعد تحميلها            ==
+    // =================================================================
+    function initializeProjectFeatures() {
+        
+       // فلترة المشاريع
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const projectCards = document.querySelectorAll('.project-card');
 
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    // إزالة النشاط من جميع الأزرار
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    // إضافة النشاط للزر المحدد
+                    this.classList.add('active');
 
+                    const filterValue = this.getAttribute('data-filter');
 
+                    projectCards.forEach(card => {
+                        const category = card.getAttribute('data-category');
 
-
-
-
-        // انتظر حتى يتم تحميل الصفحة
-document.addEventListener('DOMContentLoaded', function () {
-
-    const projectsGrid = document.querySelector('.projects-grid');
-
-    // تأكد من أن حاوية المشاريع موجودة في الصفحة
-    if (projectsGrid) {
-        fetch('/_data/projects.json') // جلب البيانات
-            .then(response => response.json())
-            .then(data => {
-                // إفراغ الحاوية أولاً
-                projectsGrid.innerHTML = ''; 
-
-                // المرور على كل مشروع في البيانات
-                data.projects.forEach(project => {
-                    // إنشاء عنصر div جديد لكل بطاقة
-                    const projectCard = document.createElement('div');
-                    
-                    // إضافة الفئات والبيانات للبطاقة
-                    projectCard.className = 'project-card reveal';
-                    projectCard.setAttribute('data-category', project.category_slug);
-                    projectCard.setAttribute('data-modal', project.modal_id);
-
-                    // ======================================================
-                    // ==   هذا الكود يعيد بناء بطاقتك الأصلية تماماً     ==
-                    // ======================================================
-                    projectCard.innerHTML = `
-                        <div class="project-image">
-                            <img src="${project.image}" alt="${project.title}">
-                            <div class="project-overlay">
-                                <span class="project-category">${project.category_name}</span>
-                                <h3>${project.title}</h3>
-                            </div>
-                        </div>
-                        <div class="project-info">
-                            <h3>${project.title}</h3>
-                            <p>${project.description}</p>
-                            <div class="project-meta">
-                                <span><i class="fas fa-map-marker-alt"></i> ${project.location}</span>
-                                <span><i class="fas fa-calendar"></i> ${project.year}</span>
-                            </div>
-                        </div>
-                    `;
-                    // ======================================================
-
-                    // إضافة البطاقة المكتملة إلى الشبكة في الصفحة
-                    projectsGrid.appendChild(projectCard);
+                        if (filterValue === 'all' || filterValue === category) {
+                            card.style.display = 'block';
+                            setTimeout(() => {
+                                card.style.opacity = '1';
+                                card.style.transform = 'translateY(0)';
+                            }, 10);
+                        } else {
+                            card.style.opacity = '0';
+                            card.style.transform = 'translateY(20px)';
+                            setTimeout(() => {
+                                card.style.display = 'none';
+                            }, 300);
+                        }
+                    });
                 });
-            })
-            .catch(error => {
-                console.error('Error loading projects:', error);
-                projectsGrid.innerHTML = '<p>عفواً، حدث خطأ أثناء تحميل المشاريع.</p>';
             });
+        
+        // (يمكنك إضافة أي كود آخر يعتمد على projectCards هنا)
+
+                    // مودال المشاريع
+            const projectModal = document.getElementById('projectModal');
+            const modalContent = document.querySelector('.modal-body');
+            const modalClose = document.querySelector('.modal-close');
+
+            projectCards.forEach(card => {
+                card.addEventListener('click', function () {
+                    const projectId = this.getAttribute('data-modal');
+                    const projectTitle = this.querySelector('h3').textContent;
+                    const projectDesc = this.querySelector('p').textContent;
+                    const projectImage = this.querySelector('img').src;
+                    const projectCategory = this.querySelector('.project-category').textContent;
+                    const projectLocation = this.querySelectorAll('.project-meta span')[0].textContent;
+                    const projectDate = this.querySelectorAll('.project-meta span')[1].textContent;
+
+                    modalContent.innerHTML = `
+                <div class="project-modal-details">
+                    <div class="modal-image">
+                        <img src="${projectImage}" alt="${projectTitle}">
+                    </div>
+                    <div class="modal-info">
+                        <span class="modal-category">${projectCategory}</span>
+                        <h2>${projectTitle}</h2>
+                        <p>${projectDesc}</p>
+                        
+                        <div class="modal-meta">
+                            <div class="meta-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <div>
+                                    <span>الموقع</span>
+                                    <strong>${projectLocation}</strong>
+                                </div>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-calendar"></i>
+                                <div>
+                                    <span>سنة الإنجاز</span>
+                                    <strong>${projectDate}</strong>
+                                </div>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-ruler-combined"></i>
+                                <div>
+                                    <span>المساحة</span>
+                                    <strong>850 م²</strong>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="modal-description">
+                            <h3>تفاصيل المشروع</h3>
+                            <p>هذا المشروع يمثل إنجازًا هندسيًا بارزًا يجمع بين الجمال والوظيفة. تم تنفيذه بأعلى معايير الجودة والكفاءة، مع الاهتمام بكل التفاصيل الدقيقة لضمان رضا العميل وتحقيق الرؤية التصميمية.</p>
+                            <ul>
+                                <li>تصميم معماري مبتكر</li>
+                                <li>مواد بناء عالية الجودة</li>
+                                <li>أنظمة طاقة مستدامة</li>
+                                <li>تصميم داخلي متكامل</li>
+                                <li>إشراف هندسي متواصل</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="modal-actions">
+                            <a href="#contact" class="btn btn-primary">طلب خدمة مشابهة</a>
+                            <button class="btn btn-secondary modal-close-btn">إغلاق</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+                    projectModal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+
+                    // إضافة مستمعي الأحداث للأزرار الجديدة
+                    document.querySelector('.modal-close-btn')?.addEventListener('click', closeModal);
+                });
+            });
+
+            function closeModal() {
+                projectModal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+            modalClose.addEventListener('click', closeModal);
+
     }
-});
+
+
+}); // <-- هذا هو القوس الأخير الذي يغلق الملف
+
+
+
