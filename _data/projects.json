@@ -1,14 +1,155 @@
 {
   "projects": [
     {
-      "title": "برج الأعمال العالمي",
-      "image": "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-      "description": "برج تجاري مكون من 40 طابق بتقنيات ذكية متطورة",
+      "title": "مبنى سكني",
+      "image": "Images/uploads/1.png",
+      "description": "مبنى سكني مكون من ثلاث شقق تم اعادة تصميمه وتطويره",
+      "category_slug": "residen-build",
+      "category_name": "مبنى سكني",
+      "location": "إب",
+      "year": 2025,
+      "modal_id": "project1"
+    },
+    {
+      "title": "مبنى سكني",
+      "image": "Images/uploads/2.png",
+      "description": "مبنى سكني مكون من 4 شقق",
+      "category_slug": "residen-build",
+      "category_name": "مبنى سكني",
+      "location": "إب",
+      "year": 2023,
+      "modal_id": "project2"
+    },
+    {
+      "title": "برج تجاري فندقي",
+      "image": "Images/uploads/3.png",
+      "description": "فندق وشقق سكنية مكون من 13 طابق",
       "category_slug": "towers",
       "category_name": "الأبراج التجارية",
+      "location": "إب",
+      "year": 2023,
+      "modal_id": "project3"
+    },
+    {
+      "title": "تأهيل مدخل وزارة الشباب",
+      "image": "Images/uploads/4.png",
+      "description": "إعادة تأهيل وتأمين المدخل الثانوي لوزارة الشباب",
+      "category_slug": "other",
+      "category_name": "تأهيل مدخل وزارة الشباب",
+      "location": "الرياض",
+      "year": 2025,
+      "modal_id": "project4"
+    },
+    {
+      "title": "فيلا سكنية",
+      "image": "Images/uploads/5.png",
+      "description": "فيلا سكنية مع احدث التقنيات والتصاميم",
+      "category_slug": "villas",
+      "category_name": "تصميم فلل",
+      "location": "الرياض",
+      "year": 2024,
+      "modal_id": "project5"
+    },
+    {
+      "title": "فيلا سكنية",
+      "image": "Images/uploads/6.png",
+      "description": "فيلا سكنية مع مواقف سيارات وتقسيمات حديثة وكلاسيكية",
+      "category_slug": "villas",
+      "category_name": "تصميم فلل",
       "location": "جدة",
-      "year": 2022,
-      "modal_id": "project2"
+      "year": 2024,
+      "modal_id": "project6"
+    },
+    {
+      "title": "مجمع نخلان سكوير",
+      "image": "Images/uploads/7.png",
+      "description": "مجمع للخدمات العامة يحتوي على جميع متطلبات السفر ",
+      "category_slug": "other",
+      "category_name": "تصميم مجمعات خدماتية",
+      "location": "الطائف",
+      "year": 2025,
+      "modal_id": "project7"
+    },
+    {
+      "title": "حدائق فلل",
+      "image": "Images/uploads/8.png",
+      "description": "تصميم حدائق خارجية",
+      "category_slug": "other",
+      "category_name": "حدائق الفلل",
+      "location": "جدة",
+      "year": 2024,
+      "modal_id": "project8"
+    },
+    {
+      "title": "حدائق فلل",
+      "image": "Images/uploads/9.png",
+      "description": "تصميم حدائق خارجية",
+      "category_slug": "villas",
+      "category_name": "حدائق الفلل",
+      "location": "جدة",
+      "year": 2023,
+      "modal_id": "project9"
+    },
+    {
+      "title": "فيلا سكنية",
+      "image": "Images/uploads/11.png",
+      "description": "فيلا سكنية بتقسيمات حديثة وكلاسيكية",
+      "category_slug": "villas",
+      "category_name": "تصميم فلل",
+      "location": "الرياض",
+      "year": 2025,
+      "modal_id": "project10"
+    }
+    ,
+    {
+      "title": "فيلا سكنية",
+      "image": "Images/uploads/12.png",
+      "description": "فيلا سكنية بتصميم حديث",
+      "category_slug": "villas",
+      "category_name": "تصميم فلل",
+      "location": "الطائف",
+      "year": 2023,
+      "modal_id": "project11"
+    },
+    {
+      "title": "شاليات",
+      "image": "Images/uploads/13.png",
+      "description": "شاليات بتصميم وتوزيع حديث لتوفر جميع المتطلبات",
+      "category_slug": "villas",
+      "category_name": "تصميم شاليات",
+      "location": "جدة",
+      "year": 2025,
+      "modal_id": "project12"
+    },
+    {
+      "title": "مبنى سكني",
+      "image": "Images/uploads/17.png",
+      "description": "مبنى سكني يتكون من 4 طوابق في كل طابق شقتان",
+      "category_slug": "residen-build",
+      "category_name": "مبنى سكني",
+      "location": "إب",
+      "year": 2024,
+      "modal_id": "project13"
+    },
+    {
+      "title": "برج تجاري فندقي",
+      "image": "Images/uploads/18.png",
+      "description": "فندق تجاري يتكون من 6 طوابق في كل طابق 3 شقق",
+      "category_slug": "towers",
+      "category_name": "الأبراج التجارية",
+      "location": "إب",
+      "year": 2024,
+      "modal_id": "project14"
+    },
+    {
+      "title": "مبنى سكني",
+      "image": "Images/uploads/19.png",
+      "description": "مبنى سكني يتكون من 6 طوابق في كل طابق 4 شقق",
+      "category_slug": "residen-build",
+      "category_name": "مبنى سكني",
+      "location": "إب",
+      "year": 2025,
+      "modal_id": "project15"
     }
   ]
 }

@@ -26,14 +26,11 @@ collections:
                 name: "category_slug"
                 widget: "select"
                 options:
+                - { label: "المباني السكنية", value: "residen-build" }
                   - { label: "تصميم فلل", value: "villas" }
                   - { label: "الأبراج التجارية", value: "towers" }
                   - { label: "التصميم الداخلي", value: "interior" }
                   - { label: "العمارة التراثية", value: "heritage" }
-                  - { label: "المشاريع المستدامة", value: "sustainable" }
-                  - { label: "المباني التعليمية", value: "educational" }
-                  - { label: "المرافق الصحية", value: "healthcare" }
-                  - { label: "المساحات العامة", value: "public-spaces" }
-                  
+                  - { label: "أخرى", value: "other" }
               - { label: "اسم فئة المشروع (بالعربي)", name: "category_name", widget: "string" }
               - { label: "معرّف النافذة المنبثقة (Modal ID)", name: "modal_id", widget: "string" }
